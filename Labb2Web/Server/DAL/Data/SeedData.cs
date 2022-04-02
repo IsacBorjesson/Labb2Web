@@ -29,7 +29,6 @@ namespace Labb2Web.Server.DAL.Data
             }
 
             var user1 = new User() {
-                UserId = Guid.NewGuid(),
                 Firstname = "Isac",
                 Lastname = "Börjesson",
                 Email = "isacborje@gmail.com",
@@ -38,7 +37,6 @@ namespace Labb2Web.Server.DAL.Data
             };
             var user2 = new User()
             {
-                UserId = Guid.NewGuid(),
                 Firstname = "Tilde",
                 Lastname = "Skrealid",
                 Email = "tildeskrea@gmail.com",
@@ -49,7 +47,6 @@ namespace Labb2Web.Server.DAL.Data
             context.AddRange(
             new Course
             {
-                CourseId = Guid.NewGuid(),
                 Name = "Matte",
                 Description = "Man räknar",
                 Length = "2 Månader",
@@ -59,7 +56,6 @@ namespace Labb2Web.Server.DAL.Data
             },
             new Course
             {
-                CourseId = Guid.NewGuid(),
                 Name = "Svenska",
                 Description = "Man räknar inte",
                 Length = "3 Månader",

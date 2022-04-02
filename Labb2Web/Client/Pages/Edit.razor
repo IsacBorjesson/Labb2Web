@@ -1,4 +1,4 @@
-﻿@page "/courses/edit/{id:guid}"
+﻿@page "/courses/edit/{id:int}"
 @inject HttpClient _http
 
 @using Labb2Client.Helpers
@@ -37,7 +37,7 @@
     private CourseForList _course = new CourseForList();
 
     [Parameter]
-    public Guid Id { get; set; }
+    public int Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {

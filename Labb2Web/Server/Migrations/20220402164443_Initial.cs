@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,7 +12,8 @@ namespace Labb2Web.Server.Migrations
                 name: "Courses",
                 columns: table => new
                 {
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Length = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -29,7 +29,8 @@ namespace Labb2Web.Server.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Firstname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Lastname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -45,8 +46,8 @@ namespace Labb2Web.Server.Migrations
                 name: "CourseUser",
                 columns: table => new
                 {
-                    CoursesCourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UsersUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CoursesCourseId = table.Column<int>(type: "int", nullable: false),
+                    UsersUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -36,7 +36,7 @@ namespace Labb2Web.Server.Controllers
 
         // GET /api/Course/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourseAsync(Guid id)
+        public async Task<ActionResult<Course>> GetCourseAsync(int id)
         {
             var item = await repository.GetByIdAsync(id);
             if (item is null)
@@ -49,7 +49,7 @@ namespace Labb2Web.Server.Controllers
         // Get /api/Course/GetCoursesByUserIdAsync/{id} 
         [Route("[action]/{id}")]
         [HttpGet]
-        public async Task<IEnumerable<CreateCourse>> GetCoursesByUserIdAsync(Guid id)
+        public async Task<IEnumerable<CreateCourse>> GetCoursesByUserIdAsync(int id)
         {
             var courseList = new List<CreateCourse>();
             var courses = await repository.GetAllByIdAsync(id);
@@ -75,7 +75,6 @@ namespace Labb2Web.Server.Controllers
         {
             Course item = new()
             {
-                CourseId = Guid.NewGuid(),
                 Name = createItem.Name,
                 Description = createItem.Description,
                 Length = createItem.Length,
@@ -89,7 +88,7 @@ namespace Labb2Web.Server.Controllers
 
         // Delete /api/Course
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCourseAsync(Guid id)
+        public async Task<ActionResult> DeleteCourseAsync(int id)
         {
             await repository.DeleteAsync(id);
             return NoContent();
@@ -97,7 +96,7 @@ namespace Labb2Web.Server.Controllers
 
         // Put /api/Course
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditCourseAsync(Guid id, CourseForList newCourse)
+        public async Task<IActionResult> EditCourseAsync(int id, CourseForList newCourse)
         {
             var oldCourse = await repository.GetByIdAsync(id);
 

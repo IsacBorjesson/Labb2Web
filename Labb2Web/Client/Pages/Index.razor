@@ -1,9 +1,42 @@
 ﻿@page "/"
+@using Labb2Client.Helpers
+@inject HttpClient _http
+@inject NavigationManager _navigationManager
 
-<PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<MudTable Items="@CoursesForList" Hover="true">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Length</MudTh>
+        <MudTh>Level</MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.CourseId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Length">@context.Length</MudTd>
+        <MudTd DataLabel="Level">@context.Level</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => AddToCart()">Add to cart</MudButton>
+        </MudTd>
+        
+    </RowTemplate>
+</MudTable>
 
-Welcome to your new app.
+@code {
+    List<CourseForList> CoursesForList { get; set; } = new();
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async Task OnInitializedAsync()
+    {
+        CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>(Constants.Course);
+    }
+
+    private void AddToCart()
+    {
+        
+    }
+}

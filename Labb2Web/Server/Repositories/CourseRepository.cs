@@ -28,7 +28,7 @@ namespace Labb2Web.Server.Repositories
             _context.SaveChanges();
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task DeleteAsync(int id)
         {
             var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
             if (course == null)
@@ -44,14 +44,14 @@ namespace Labb2Web.Server.Repositories
             return await _context.Courses.ToListAsync();
         }
 
-        public async Task<IEnumerable<Course>> GetAllByIdAsync(Guid id)
+        public async Task<IEnumerable<Course>> GetAllByIdAsync(int id)
         {
             var user = await _context.Users.Include(c => c.Courses).FirstOrDefaultAsync(c => c.UserId == id);
             var courses = user.Courses;
             return courses;
         }
 
-        public async Task<Course> GetByIdAsync(Guid id)
+        public async Task<Course> GetByIdAsync(int id)
         {
             Course? course = await _context.Courses.FindAsync(id);
             if (course == null)

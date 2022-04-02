@@ -4,7 +4,7 @@ namespace Labb2Web.Shared
 {
     public class CourseForList
     {
-        public Guid CourseId { get; set; }
+        public int CourseId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Length { get; set; }

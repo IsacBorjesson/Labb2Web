@@ -34,7 +34,7 @@ public class UserController : ControllerBase
 
     // GET /api/User/{id}
     [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetUserAsync(Guid id)
+    public async Task<ActionResult<User>> GetUserAsync(int id)
     {
         var item = await repository.GetByIdAsync(id);
         if (item is null)
@@ -47,7 +47,7 @@ public class UserController : ControllerBase
     // GET /api/User/GetUsersByCourseIdAsync/{id}
     [Route("[action]/{id}")]
     [HttpGet]
-    public async Task<IEnumerable<UserForList>> GetUsersByCourseIdAsync(Guid id)
+    public async Task<IEnumerable<UserForList>> GetUsersByCourseIdAsync(int id)
     {
         var userList = new List<UserForList>();
         var users = await repository.GetAllByIdAsync(id);
@@ -74,7 +74,6 @@ public class UserController : ControllerBase
     {
         User item = new()
         {
-            UserId = Guid.NewGuid(),
             Firstname = createItem.Firstname,
             Lastname = createItem.Lastname,
             Email = createItem.Email,
@@ -88,7 +87,7 @@ public class UserController : ControllerBase
 
     // DELETE /api/User
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteUserAsync(Guid id)
+    public async Task<ActionResult> DeleteUserAsync(int id)
     {
         await repository.DeleteAsync(id);
         return NoContent();
@@ -96,7 +95,7 @@ public class UserController : ControllerBase
 
     // PUT /api/User
     [HttpPut("{id}")]
-    public async Task<IActionResult> EditUserAsync(Guid id, CreateUser newUser)
+    public async Task<IActionResult> EditUserAsync(int id, CreateUser newUser)
     {
         var oldUser = await repository.GetByIdAsync(id);
 
