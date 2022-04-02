@@ -1,0 +1,46 @@
+﻿@page "/register"
+@using Labb2Client.Helpers
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient _http
+@inject NavigationManager _navigationManager
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Firstname"
+                              @bind-Value="model.Firstname" For="@(() => model.Firstname)"/>
+                <MudTextField Label="Lastname" Class="mt-3"
+                              @bind-Value="model.Lastname" For="@(() => model.Lastname)"/>
+                <MudTextField Label="Email" Class="mt-3"
+                              @bind-Value="model.Email" For="@(() => model.Email)" />
+                <MudTextField Label="PhoneNumber" Class="mt-3"
+                              @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)"/>
+                <MudTextField Label="Adress" Class="mt-3"
+                              @bind-Value="model.Adress" For="@(() => model.Adress)"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+            @if (success)
+            {
+                <MudText Color="Color.Success">Success</MudText>
+            }
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+    CreateUser model = new CreateUser();
+    bool success;
+
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        _http.PostAsJsonAsync<CreateUser>(Constants.User, model);
+        _navigationManager.NavigateTo("/");
+    }
+
+}

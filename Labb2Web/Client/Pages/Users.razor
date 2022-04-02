@@ -1,0 +1,32 @@
+﻿@page "/users"
+@using Labb2Client.Helpers
+@inject HttpClient _http
+
+
+<MudTable Items="@UsersForList" Hover="true">
+    <HeaderContent>
+        <MudTh>UserId</MudTh>
+        <MudTh>Firstname</MudTh>
+        <MudTh>Lastname</MudTh>
+        <MudTh>Email</MudTh>
+        <MudTh>PhoneNumber</MudTh>
+        <MudTh>Adress</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="UserId">@context.UserId</MudTd>
+        <MudTd DataLabel="Firstname">@context.Firstname</MudTd>
+        <MudTd DataLabel="Lastname">@context.Lastname</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
+        <MudTd DataLabel="Adress">@context.Adress</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    List<UserForList> UsersForList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        UsersForList = await _http.GetFromJsonAsync<List<UserForList>>(Constants.User);
+    }
+}

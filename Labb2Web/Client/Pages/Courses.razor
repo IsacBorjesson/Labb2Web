@@ -1,0 +1,53 @@
+﻿@page "/courses"
+@using Labb2Client.Helpers
+@inject HttpClient _http
+@inject NavigationManager _navigationManager
+
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => CreatePage()">Create</MudButton>
+<MudTable Items="@CoursesForList" Hover="true">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Length</MudTh>
+        <MudTh>Level</MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.CourseId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Length">@context.Length</MudTd>
+        <MudTd DataLabel="Level">@context.Level</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+        <MudTd>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => EditPage(context.CourseId)">Edit</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => Delete(context.CourseId)">Delete</MudButton>
+        </MudTd>
+        
+    </RowTemplate>
+</MudTable>
+
+@code {
+    List<CourseForList> CoursesForList { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>(Constants.Course);
+    }
+
+    private void EditPage(Guid id)
+    {
+        _navigationManager.NavigateTo($"/courses/edit/{id}");
+    }
+
+    private async Task Delete(Guid id)
+    {
+        await _http.DeleteAsync(Constants.Course + id);
+        await OnInitializedAsync();
+    }
+    private void CreatePage()
+    {
+        _navigationManager.NavigateTo("/courses/create");
+    }
+}

@@ -1,0 +1,40 @@
+﻿@page "/courses/create"
+@using Labb2Client.Helpers
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient _http
+@inject NavigationManager _navigationManager
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Name"
+                              @bind-Value="model.Name" For="@(() => model.Name)"/>
+                <MudTextField Label="Description" Class="mt-3"
+                              @bind-Value="model.Description" For="@(() => model.Description)"/>
+                <MudTextField Label="Length" Class="mt-3"
+                              @bind-Value="model.Length" For="@(() => model.Length)" />
+                <MudTextField Label="Level" Class="mt-3"
+                              @bind-Value="model.Level" For="@(() => model.Level)"/>
+                <MudTextField Label="Status" Class="mt-3"
+                              @bind-Value="model.Status" For="@(() => model.Status)"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+    CreateCourse model = new CreateCourse();
+
+    private void OnValidSubmit(EditContext context)
+    {
+        _http.PostAsJsonAsync<CreateCourse>(Constants.Course, model);
+        _navigationManager.NavigateTo("/");
+    }
+
+}

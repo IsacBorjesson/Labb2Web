@@ -1,0 +1,52 @@
+﻿@page "/courses/edit/{id:guid}"
+@inject HttpClient _http
+
+@using Labb2Client.Helpers
+
+<h4>Game details @Id</h4>
+
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager _navigationManager
+
+<EditForm Model="@_course" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Firstname"
+                              @bind-Value="_course.Name" For="@(() => _course.Name)"/>
+                <MudTextField Label="Lastname" Class="mt-3"
+                              @bind-Value="_course.Description" For="@(() => _course.Description)"/>
+                <MudTextField Label="Email" Class="mt-3"
+                              @bind-Value="_course.Length" For="@(() => _course.Length)" />
+                <MudTextField Label="PhoneNumber" Class="mt-3"
+                              @bind-Value="_course.Level" For="@(() => _course.Level)"/>
+                <MudTextField Label="Adress" Class="mt-3"
+                              @bind-Value="_course.Status" For="@(() => _course.Status)"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+
+@code {
+    private CourseForList _course = new CourseForList();
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        _course = await _http.GetFromJsonAsync<CourseForList>(Constants.Course + Id);
+    }
+    private void OnValidSubmit(EditContext context)
+    {
+        _http.PutAsJsonAsync<CourseForList>(Constants.Course + Id, _course);
+        _navigationManager.NavigateTo("/");
+
+    }
+}
