@@ -46,7 +46,7 @@ namespace Labb2Web.Server.Controllers
             return item;
         }
 
-        // Get /api/Course/GetCoursesByUserIdAsync/{id} 
+        // Get /api/Course/GetCoursesByUserId/{id} 
         [Route("[action]/{id}")]
         [HttpGet]
         public async Task<IEnumerable<CourseForList>> GetCoursesByUserIdAsync(int id)

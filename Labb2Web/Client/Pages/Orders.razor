@@ -4,7 +4,7 @@
 @inject NavigationManager _navigationManager
 @using System.ComponentModel.DataAnnotations
 
-
+<h4>@User.Firstname</h4>
 <MudTable Items="@CoursesForList" Hover="true">
     <HeaderContent>
         <MudTh>Id</MudTh>
@@ -26,13 +26,15 @@
 
 @code {
     private List<CourseForList> CoursesForList { get; set; } = new();
+    private UserForList User { get; set; }
 
     [Parameter]
     public int Id { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>($"/api/Course/GetCoursesByUserIdAsync/{Id}");
+        CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>($"/api/Course/GetCoursesByUserId/{Id}");
+        User = await _http.GetFromJsonAsync<UserForList>(Constants.User + Id);
     }
 
 }
