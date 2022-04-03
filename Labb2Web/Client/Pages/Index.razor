@@ -2,8 +2,18 @@
 @using Labb2Client.Helpers
 @inject HttpClient _http
 @inject NavigationManager _navigationManager
-
-
+@if(fail == true)
+{
+    <p>You need to choose your id</p>
+}
+<MudSelect T="int" Label="User" Variant="Variant.Outlined" @bind-value="UserId">
+    @foreach (var user in UsersForList)
+    {
+        <MudSelectItem Value=@user.UserId></MudSelectItem>
+    }
+</MudSelect>
+<MudTextField @bind-Value="SearchId" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+<MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => Search()">Search</MudButton>
 <MudTable Items="@CoursesForList" Hover="true">
     <HeaderContent>
         <MudTh>Id</MudTh>
@@ -21,22 +31,47 @@
         <MudTd DataLabel="Level">@context.Level</MudTd>
         <MudTd DataLabel="Status">@context.Status</MudTd>
         <MudTd>
-            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => AddToCart()">Add to cart</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => BuyCourse(context.CourseId)">Buy</MudButton>
         </MudTd>
         
     </RowTemplate>
 </MudTable>
 
 @code {
-    List<CourseForList> CoursesForList { get; set; } = new();
+    public bool fail;
+    public int SearchId;
+    public int UserId;  
+    private List<CourseForList> CoursesForList { get; set; } = new();
+    private List<UserForList> UsersForList { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>(Constants.Course);
+        UsersForList = await _http.GetFromJsonAsync<List<UserForList>>(Constants.User);
     }
 
-    private void AddToCart()
+    private async Task BuyCourse(int CourseId)
     {
-        
+        if(UserId == 0)
+        {
+            fail = true;
+            return;
+        }
+        var courseUser = new CourseUser
+            {
+                CourseId = CourseId,
+                UserId = UserId
+            };
+        await _http.PostAsJsonAsync<CourseUser>(Constants.Course + "CreateManyToMany", courseUser);
+        fail = false;
+    }
+
+    private async Task Search()
+    {
+        if(SearchId == 0)
+        {
+            OnInitializedAsync();
+        }
+        CoursesForList[0] = await _http.GetFromJsonAsync<CourseForList>(Constants.Course + SearchId);
     }
 }

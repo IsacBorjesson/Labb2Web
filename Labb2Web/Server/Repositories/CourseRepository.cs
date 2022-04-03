@@ -1,5 +1,4 @@
 ﻿using Labb2Web.Server.DAL.Data;
-using Labb2Web.Server.DAL.Models;
 using Labb2Web.Server.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Labb2Web.Server.Interfaces;

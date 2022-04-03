@@ -1,4 +1,4 @@
-﻿using Labb2Web.Server.DAL.Models;
+﻿
 using Labb2Web.Server.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Labb2Web.Server.Interfaces;

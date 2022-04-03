@@ -1,6 +1,7 @@
 ﻿@page "/users"
 @using Labb2Client.Helpers
 @inject HttpClient _http
+@inject NavigationManager _navigationManager
 
 
 <MudTable Items="@UsersForList" Hover="true">
@@ -19,14 +20,35 @@
         <MudTd DataLabel="Email">@context.Email</MudTd>
         <MudTd DataLabel="PhoneNumber">@context.PhoneNumber</MudTd>
         <MudTd DataLabel="Adress">@context.Adress</MudTd>
+        <MudTd>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => OrderPage(context.UserId)">View orderhistory</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => EditPage(context.UserId)">Edit</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="() => Delete(context.UserId)">Delete</MudButton>
+        </MudTd>
     </RowTemplate>
 </MudTable>
 
 @code {
-    List<UserForList> UsersForList { get; set; } = new();
+    private List<UserForList> UsersForList { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
         UsersForList = await _http.GetFromJsonAsync<List<UserForList>>(Constants.User);
+    }
+
+    private void EditPage(int id)
+    {
+        _navigationManager.NavigateTo($"/users/edit/{id}");
+    }
+
+    private async Task Delete(int id)
+    {
+        await _http.DeleteAsync(Constants.User + id);
+        await OnInitializedAsync();
+    }
+
+    private void OrderPage(int id)
+    {
+        _navigationManager.NavigateTo($"/users/orders/{id}");
     }
 }

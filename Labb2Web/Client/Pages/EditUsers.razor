@@ -1,4 +1,4 @@
-﻿@page "/courses/edit/{id:int}"
+﻿@page "/users/edit/{id:int}"
 @inject HttpClient _http
 
 @using Labb2Client.Helpers
@@ -8,25 +8,25 @@
 @using System.ComponentModel.DataAnnotations
 @inject NavigationManager _navigationManager
 
-<EditForm Model="@_course" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
 <DataAnnotationsValidator/>
 <MudGrid>
     <MudItem xs="12" sm="7">
         <MudCard>
             <MudCardContent>
                 <MudTextField Label="Firstname"
-                              @bind-Value="_course.Name" For="@(() => _course.Name)"/>
+                              @bind-Value="model.Firstname" For="@(() => model.Firstname)"/>
                 <MudTextField Label="Lastname" Class="mt-3"
-                              @bind-Value="_course.Description" For="@(() => _course.Description)"/>
+                              @bind-Value="model.Lastname" For="@(() => model.Lastname)"/>
                 <MudTextField Label="Email" Class="mt-3"
-                              @bind-Value="_course.Length" For="@(() => _course.Length)" />
+                              @bind-Value="model.Email" For="@(() => model.Email)" />
                 <MudTextField Label="PhoneNumber" Class="mt-3"
-                              @bind-Value="_course.Level" For="@(() => _course.Level)"/>
+                              @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)"/>
                 <MudTextField Label="Adress" Class="mt-3"
-                              @bind-Value="_course.Status" For="@(() => _course.Status)"/>
+                              @bind-Value="model.Adress" For="@(() => model.Adress)"/>
             </MudCardContent>
             <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Edit</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
@@ -34,18 +34,18 @@
 </EditForm>
 
 @code {
-    private CourseForList _course = new CourseForList();
+    private UserForList model = new UserForList();
 
     [Parameter]
     public int Id { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
-        _course = await _http.GetFromJsonAsync<CourseForList>(Constants.Course + Id);
+        model = await _http.GetFromJsonAsync<UserForList>(Constants.User + Id);
     }
     private void OnValidSubmit(EditContext context)
     {
-        _http.PutAsJsonAsync<CourseForList>(Constants.Course + Id, _course);
+        _http.PutAsJsonAsync<UserForList>(Constants.User + Id, model);
         _navigationManager.NavigateTo("/");
 
     }

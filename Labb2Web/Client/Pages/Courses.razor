@@ -29,7 +29,7 @@
 </MudTable>
 
 @code {
-    List<CourseForList> CoursesForList { get; set; } = new();
+    private List<CourseForList> CoursesForList { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {

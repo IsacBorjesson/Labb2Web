@@ -1,4 +1,4 @@
-﻿using Labb2Web.Server.DAL.Models;
+﻿
 using Labb2Web.Server.DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Labb2Web.Server.Interfaces;
@@ -49,14 +49,15 @@ namespace Labb2Web.Server.Controllers
         // Get /api/Course/GetCoursesByUserIdAsync/{id} 
         [Route("[action]/{id}")]
         [HttpGet]
-        public async Task<IEnumerable<CreateCourse>> GetCoursesByUserIdAsync(int id)
+        public async Task<IEnumerable<CourseForList>> GetCoursesByUserIdAsync(int id)
         {
-            var courseList = new List<CreateCourse>();
+            var courseList = new List<CourseForList>();
             var courses = await repository.GetAllByIdAsync(id);
             foreach (var course in courses)
             {
-                var newuser = new CreateCourse()
+                var newuser = new CourseForList()
                 {
+                    CourseId =course.CourseId,
                     Name = course.Name,
                     Description = course.Description,
                     Length = course.Length,

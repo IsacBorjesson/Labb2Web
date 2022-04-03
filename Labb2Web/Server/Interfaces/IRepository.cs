@@ -1,4 +1,4 @@
-﻿using Labb2Web.Server.DAL.Models;
+﻿
 
 namespace Labb2Web.Server.Interfaces;
 

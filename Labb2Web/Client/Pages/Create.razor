@@ -22,14 +22,14 @@
                               @bind-Value="model.Status" For="@(() => model.Status)"/>
             </MudCardContent>
             <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Create</MudButton>
             </MudCardActions>
         </MudCard>
     </MudItem>
 </MudGrid>
 </EditForm>
 @code {
-    CreateCourse model = new CreateCourse();
+    private CreateCourse model = new CreateCourse();
 
     private void OnValidSubmit(EditContext context)
     {

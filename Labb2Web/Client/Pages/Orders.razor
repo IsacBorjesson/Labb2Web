@@ -1,0 +1,38 @@
+﻿@page "/users/orders/{id:int}"
+@using Labb2Client.Helpers
+@inject HttpClient _http
+@inject NavigationManager _navigationManager
+@using System.ComponentModel.DataAnnotations
+
+
+<MudTable Items="@CoursesForList" Hover="true">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh>Length</MudTh>
+        <MudTh>Level</MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.CourseId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Length">@context.Length</MudTd>
+        <MudTd DataLabel="Level">@context.Level</MudTd>
+        <MudTd DataLabel="Status">@context.Status</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<CourseForList> CoursesForList { get; set; } = new();
+
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        CoursesForList = await _http.GetFromJsonAsync<List<CourseForList>>($"/api/Course/GetCoursesByUserIdAsync/{Id}");
+    }
+
+}
